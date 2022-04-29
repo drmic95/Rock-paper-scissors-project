@@ -4,7 +4,7 @@ function computerPlay(random) {
   let random1 = Math.floor(Math.random() * random.length);
   return random1;
 }
-const playerSelection = 'rock';
+const playerSelection = prompt('');
 let computerSelection = computerPlay(options);
 
 function playRound(playerSelection, computerSelection) {
