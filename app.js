@@ -1,10 +1,12 @@
+'strict code';
+
 const options = ['rock', 'paper', 'scissors'];
 
 function computerPlay(random) {
   let random1 = Math.floor(Math.random() * random.length);
   return random1;
 }
-const playerSelection = prompt('');
+let playerSelection = prompt('');
 let computerSelection = computerPlay(options);
 
 let playerScoreTotal = 0;
@@ -37,7 +39,20 @@ function playRound(playerSelection, computerSelection) {
     console.log('tie');
   }
 }
-playRound(playerSelection, computerSelection);
 
-console.log('playerScore', playerScoreTotal);
-console.log('computerScore', compScoreTotal);
+function game() {
+  for (let i = 0; i < 10; i++) {
+    playRound(playerSelection, computerSelection)[i];
+    console.log(
+      `player score ${playerScoreTotal}...computer score ${compScoreTotal}`
+    );
+  }
+}
+
+game();
+
+// playRound(playerSelection, computerSelection);
+
+// console.log('playerScore', playerScoreTotal);
+// console.log('computerScore', compScoreTotal);
+//   `player score ${playerScoreTotal[i]}...computer score ${compScoreTotal[i]}`;
