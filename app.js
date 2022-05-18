@@ -1,5 +1,3 @@
-// 'use strict';
-
 function computerPlay() {
   return Math.floor(Math.random() * 3);
 }
@@ -7,6 +5,9 @@ function computerPlay() {
 const rock = document.querySelector('.rock');
 const paper = document.querySelector('.paper');
 const scissors = document.querySelector('.scissors');
+const PlayerScore = document.querySelector('.score-player');
+const compScore = document.querySelector('.score-comp');
+
 const playerSelection = [];
 const computerSelection = [];
 
@@ -14,9 +15,6 @@ rock.addEventListener('click', function () {
   playerSelection.unshift('rock');
   computerSelection.unshift(computerPlay());
   playRound();
-  // player score and comp score on html elements
-  // if statement or function that will stop the game after result of 5 is achieved, or after there are 5 items in array;
-  // kill functionality of buttons after the game is done, toggle
 });
 paper.addEventListener('click', function () {
   playerSelection.unshift('paper');
@@ -42,21 +40,20 @@ function playRound() {
     (computerSelection[0] === 1 && playerSelection[0] === 'scissors') ||
     (computerSelection[0] === 2 && playerSelection[0] === 'rock')
   ) {
-    console.log(
-      `player wins --- player score ${(playerScoreTotal += 1)}...computer score ${compScoreTotal}`
-    );
+    PlayerScore.textContent = playerScoreTotal++;
   } else if (
     // computer wins
     (computerSelection[0] === 0 && playerSelection[0] === 'scissors') ||
     (computerSelection[0] === 1 && playerSelection[0] === 'rock') ||
     (computerSelection[0] === 2 && playerSelection[0] === 'paper')
   ) {
-    console.log(
-      `computer wins --- player score ${playerScoreTotal}...computer score ${(compScoreTotal += 1)}`
-    );
+    compScore.textContent = compScoreTotal++;
   } else {
     console.log('tie');
   }
 }
 
-// playRound();
+// game round: number 1; arr.length
+// html element that will print player wins, AI wins, tie
+// if statement or function that will stop the game after result of 5 is achieved, or after there are 5 items in array;
+// kill functionality of buttons after the game is done, toggle
