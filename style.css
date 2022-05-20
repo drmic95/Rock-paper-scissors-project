@@ -37,3 +37,7 @@ body {
 .scissors {
   flex: 1;
 }
+.play-round {
+  position: absolute;
+  top: 30%;
+}
