@@ -88,7 +88,3 @@ function gameOver() {
     alert('We have a tie on our hands, better luck next time around');
   }
 }
-
-// span(playerScore).text content = Player wins with some DOM css, color, size whatever, or AI wins with same logic
-// if statement or function that will stop the game after result of 5 is achieved
-// kill functionality of buttons after the game is done, toggle
