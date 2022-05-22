@@ -16,18 +16,6 @@ function computerPlay() {
   return Math.floor(Math.random() * 3);
 }
 
-function resetGame() {
-  playerScoreTotal = 0;
-  compScoreTotal = 0;
-  roundNumber = 0;
-  playerScoreDiv.textContent = 0;
-  compScoreDiv.textContent = 0;
-  playCounterDiv.textContent = 0;
-  resetButton.style.display = 'none';
-  roundResultDiv.textContent = '';
-  buttonsContainer.style.display = 'flex';
-}
-
 resetButton.addEventListener('click', () => resetGame());
 
 // this enables only one listener
@@ -48,6 +36,18 @@ buttonsContainer.addEventListener('click', (event) => {
     playRound(SCISSORS);
   }
 });
+
+function resetGame() {
+  playerScoreTotal = 0;
+  compScoreTotal = 0;
+  roundNumber = 0;
+  playerScoreDiv.textContent = 0;
+  compScoreDiv.textContent = 0;
+  playCounterDiv.textContent = 0;
+  resetButton.style.display = 'none';
+  roundResultDiv.textContent = '';
+  buttonsContainer.style.display = 'flex';
+}
 
 let playerScoreTotal = 0;
 let compScoreTotal = 0;
@@ -96,13 +96,11 @@ function playRound(playerSelection) {
 
 function gameOver() {
   if (playerScoreTotal > compScoreTotal) {
-    // buttonsContainer.remove();
     alert(
       `Players score of ${playerScoreTotal} was sufficient to beat his godless AI enemy`,
     );
     roundResultDiv.textContent = 'PLAYER WINS THE GAME!';
   } else if (playerScoreTotal < compScoreTotal) {
-    // buttonsContainer.remove();
     alert(
       `The godless master defeated his inferior human creator with an advantage of ${
         compScoreTotal - playerScoreTotal
