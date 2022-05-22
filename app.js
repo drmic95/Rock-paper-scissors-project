@@ -1,90 +1,116 @@
+// ELEMENTS
+const playerScoreDiv = document.querySelector('.score-player');
+const compScoreDiv = document.querySelector('.score-comp');
+const playCounterDiv = document.querySelector('.play-round-counter');
+const buttonsContainer = document.querySelector('.btn-container');
+const roundResultDiv = document.querySelector('.round-result');
+const resetButton = document.querySelector('.reset');
+
+// GAME
+const ROCK = 'rock';
+const PAPER = 'paper';
+const SCISSORS = 'scissors';
+const options = [ROCK, PAPER, SCISSORS];
+
 function computerPlay() {
   return Math.floor(Math.random() * 3);
 }
+
+function resetGame() {
+  playerScoreTotal = 0;
+  compScoreTotal = 0;
+  roundNumber = 0;
+  playerScoreDiv.textContent = 0;
+  compScoreDiv.textContent = 0;
+  playCounterDiv.textContent = 0;
+  resetButton.style.display = 'none';
+  roundResultDiv.textContent = '';
+  buttonsContainer.style.display = 'flex';
+}
+
+resetButton.addEventListener('click', () => resetGame());
+
+// this enables only one listener
+buttonsContainer.addEventListener('click', (event) => {
+  const isRockSelected = event.target.classList.contains(ROCK);
+  const isScissorsSelected = event.target.classList.contains(SCISSORS);
+  const isPaperSelected = event.target.classList.contains(PAPER);
+
+  if (isRockSelected) {
+    playRound(ROCK);
+  }
+
+  if (isPaperSelected) {
+    playRound(PAPER);
+  }
+
+  if (isScissorsSelected) {
+    playRound(SCISSORS);
+  }
+});
+
 let playerScoreTotal = 0;
 let compScoreTotal = 0;
-const rock = document.querySelector('.rock');
-const paper = document.querySelector('.paper');
-const scissors = document.querySelector('.scissors');
-const PlayerScore = document.querySelector('.score-player');
-const compScore = document.querySelector('.score-comp');
-const playCounter = document.querySelector('.play-round-counter');
-const playerSelection = [];
-const computerSelection = [];
+let roundNumber = 0;
 
-rock.addEventListener('click', function () {
-  playerSelection.unshift('rock');
-  computerSelection.unshift(computerPlay());
-  playRound();
-  playCounter.textContent = computerSelection.length;
-  gameOver();
-});
-paper.addEventListener('click', function () {
-  playerSelection.unshift('paper');
-  computerSelection.unshift(computerPlay());
-  playRound();
-  playCounter.textContent = computerSelection.length;
-  gameOver();
-});
-scissors.addEventListener('click', function () {
-  playerSelection.unshift('scissors');
-  computerSelection.unshift(computerPlay());
-  playRound();
-  playCounter.textContent = computerSelection.length;
-  gameOver();
-});
+function playRound(playerSelection) {
+  const computerSelection = options[computerPlay()];
 
-console.log(playerSelection);
-console.log(computerSelection);
-
-function playRound() {
+  console.log('PLAYER: ', playerSelection);
+  console.log('COMPUTER: ', computerSelection);
+  console.log('\n');
   if (
     // player wins
-    (computerSelection[0] === 0 && playerSelection[0] === 'paper') ||
-    (computerSelection[0] === 1 && playerSelection[0] === 'scissors') ||
-    (computerSelection[0] === 2 && playerSelection[0] === 'rock')
+    (playerSelection === ROCK && computerSelection === SCISSORS) ||
+    (playerSelection === PAPER && computerSelection === ROCK) ||
+    (playerSelection === SCISSORS && computerSelection === PAPER)
   ) {
-    PlayerScore.textContent = playerScoreTotal++;
+    // player score is increased here
+    playerScoreTotal += 1;
+    // the increased value is displayed
+    playerScoreDiv.textContent = playerScoreTotal;
+    roundResultDiv.textContent = 'Player wins round!';
   } else if (
     // computer wins
-    (computerSelection[0] === 0 && playerSelection[0] === 'scissors') ||
-    (computerSelection[0] === 1 && playerSelection[0] === 'rock') ||
-    (computerSelection[0] === 2 && playerSelection[0] === 'paper')
+    (computerSelection === ROCK && playerSelection === SCISSORS) ||
+    (computerSelection === PAPER && playerSelection === ROCK) ||
+    (computerSelection === SCISSORS && playerSelection === PAPER)
   ) {
-    compScore.textContent = compScoreTotal++;
+    // computer score is increased here
+    compScoreTotal += 1;
+    // the increased value is displayed
+    compScoreDiv.textContent = compScoreTotal;
+    roundResultDiv.textContent = 'Computer wins round!';
   } else {
-    console.log('tie');
+    roundResultDiv.textContent = 'Tie round!';
+  }
+  // next round
+  roundNumber++;
+  playCounterDiv.textContent = roundNumber;
+
+  // first to 5 wins
+  if (playerScoreTotal === 5 || compScoreTotal === 5) {
+    gameOver();
   }
 }
-playCounter.textContent = computerSelection.length;
 
 function gameOver() {
-  if (computerSelection.length === 11 && playerScoreTotal > compScoreTotal) {
-    rock.remove();
-    paper.remove();
-    scissors.remove();
+  if (playerScoreTotal > compScoreTotal) {
+    // buttonsContainer.remove();
     alert(
-      `Players score of ${playerScoreTotal} was sufficient to beat his godless AI enemy`
+      `Players score of ${playerScoreTotal} was sufficient to beat his godless AI enemy`,
     );
-  } else if (
-    computerSelection.length === 11 &&
-    playerScoreTotal < compScoreTotal
-  ) {
-    rock.remove();
-    paper.remove();
-    scissors.remove();
+    roundResultDiv.textContent = 'PLAYER WINS THE GAME!';
+  } else if (playerScoreTotal < compScoreTotal) {
+    // buttonsContainer.remove();
     alert(
       `The godless master defeated his inferior human creator with an advantage of ${
         compScoreTotal - playerScoreTotal
-      } point`
+      } point`,
     );
-  } else if (
-    computerSelection.length === 11 &&
-    playerScoreTotal === compScoreTotal
-  ) {
-    rock.remove();
-    paper.remove();
-    scissors.remove();
-    alert('We have a tie on our hands, better luck next time around');
+    roundResultDiv.textContent = 'GODLESS AI WINS THE GAME!';
   }
+
+  buttonsContainer.style.display = 'none';
+  resetButton.style.display = 'block';
 }
